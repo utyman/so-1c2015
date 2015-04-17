@@ -21,6 +21,17 @@ SchedRR2::~SchedRR2() {
 
 }
 
+void borrar(vector<int> nucleo, int pid) {
+	short posicion = 0;
+	for (unsigned int i = 0; i < nucleo.size(); i++) {
+		if(nucleo[i] == pid) {
+		   posicion = i;
+		   nucleo.erase(nucleo.begin()+posicion);
+		  break;
+		}
+	}
+}
+
 bool contiene(vector<int> nucleo, int pid) {
 	for (unsigned int i = 0; i < nucleo.size(); i++) {
 		if(nucleo[i] == pid) {
@@ -57,6 +68,8 @@ void SchedRR2::unblock(int pid) {
 
 int SchedRR2::tick(int cpu, const enum Motivo m) {
 	if (m == EXIT) {
+		// saco al proceso de los procesos activos del núcleo
+		borrar(nucleos[cpu], current_pid(cpu));
 		// Si el pid actual terminó, sigue el próximo.
 		if (qs[cpu].empty()) return IDLE_TASK;
 		else {
