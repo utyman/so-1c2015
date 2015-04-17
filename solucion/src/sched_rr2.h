@@ -15,6 +15,8 @@ class SchedRR2 : public SchedBase {
 		virtual int tick(int cpu, const enum Motivo m);
 
 	private:
+		std::vector< std::queue<int> > qs;
+		std::vector< std::vector<int> > nucleos;
 		int next(int cpu);
 };
 
