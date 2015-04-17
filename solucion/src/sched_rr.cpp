@@ -8,10 +8,10 @@ using namespace std;
 
 SchedRR::SchedRR(vector<int> argn) {
 	// Round robin recibe la cantidad de cores y sus cpu_quantum por parámetro
+
 }
 
 SchedRR::~SchedRR() {
-
 }
 
 
@@ -20,6 +20,7 @@ void SchedRR::load(int pid) {
 }
 
 void SchedRR::unblock(int pid) {
+
 	q.push(pid); // vuelve a la cola de ready
 }
 
@@ -45,7 +46,9 @@ int SchedRR::tick(int cpu, const enum Motivo m) {
 		if (!q.empty()) {
 			int sig = q.front(); q.pop();
 			int des = current_pid(cpu);
-			q.push(des); // vuelvo a encolar el proceso desalojado
+			if (des != IDLE_TASK) {
+				q.push(des); // vuelvo a encolar el proceso desalojado
+			}
 			return sig;
 		} else {
 			return current_pid(cpu);

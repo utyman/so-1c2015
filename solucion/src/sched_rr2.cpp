@@ -77,7 +77,9 @@ int SchedRR2::tick(int cpu, const enum Motivo m) {
 		if (!qs[cpu].empty()) {
 			int sig = qs[cpu].front(); qs[cpu].pop();
 			int des = current_pid(cpu);
-			qs[cpu].push(des); // vuelvo a encolar el proceso desalojado
+			if (des != IDLE_TASK) {
+				qs[cpu].push(des); // vuelvo a encolar el proceso desalojado
+			}
 			return sig;
 		} else {
 			return current_pid(cpu);
