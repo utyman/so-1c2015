@@ -1,6 +1,8 @@
 #include "tasks.h"
 #include <iostream>
 #include <stdlib.h>
+#include <algorithm>
+#include <assert.h>
 
 using namespace std;
 
@@ -41,6 +43,40 @@ void TaskConBloqueo(int pid, vector<int> params) {
 	}
 }
 
+void TaskBatch(int pid,std::vector<int> params){
+
+	unsigned int total_cpu = (unsigned int) params[0];
+	unsigned int cant_bloqueos = (unsigned int) params[1];
+
+	unsigned int tiempo_de_lanzamiento_IO = cant_bloqueos;
+	/* Tiempo solicitado de CPU es insuficiente para la cantidad de IO pedidos*/
+	assert(total_cpu>=tiempo_de_lanzamiento_IO); 
+
+	unsigned int uso_cpu_sin_bloqueos = total_cpu - tiempo_de_lanzamiento_IO;
+	unsigned int* momentos_de_bloqueo = new unsigned int [cant_bloqueos];
+	for(unsigned int i = 0;i<cant_bloqueos;i++){
+		momentos_de_bloqueo[i] = rand()%(uso_cpu_sin_bloqueos+1);
+	}
+	sort(momentos_de_bloqueo,momentos_de_bloqueo+cant_bloqueos);
+
+	unsigned int ultimo_bloqueo = 0;
+	for(unsigned int i = 0;i<cant_bloqueos;i++){
+		unsigned int tiempo_cpu = momentos_de_bloqueo[i] - ultimo_bloqueo;
+		if(tiempo_cpu!=0){
+			uso_CPU(pid,tiempo_cpu);
+		}
+		uso_IO(pid,1);
+		ultimo_bloqueo = momentos_de_bloqueo[i];
+	}
+	if(ultimo_bloqueo < uso_cpu_sin_bloqueos){
+		uso_CPU(pid,uso_cpu_sin_bloqueos - ultimo_bloqueo);
+	}
+
+	delete[](momentos_de_bloqueo);
+
+	return;
+}
+
 void tasks_init(void) {
 	/* Todos los tipos de tareas se deben registrar acá para poder ser usadas.
 	 * El segundo parámetro indica la cantidad de parámetros que recibe la tarea
@@ -50,4 +86,5 @@ void tasks_init(void) {
 	register_task(TaskAlterno, -1);
 	register_task(TaskConBloqueo,3);
 	register_task(TaskConsola,3);
+	register_task(TaskBatch,2);
 }
