@@ -7,6 +7,22 @@
 
 using namespace std;
 
+class TaskComparable
+{
+  public:
+    TaskComparable() {};                                      //constructor default
+    TaskComparable(int pid, int priority) { this->pid = pid; this->period = period; }    //constructor
+    bool operator<(const TaskComparable& right) const{
+    	return (this->period)  < (right.period);
+    }
+
+    int get_pid() const { return pid; }             //accessor methods
+    int get_period() const { return period; }
+
+  private:
+    int pid, period;                                 //data fields
+};
+
 class SchedFixed : public SchedBase {
 	public:
 		SchedFixed(std::vector<int> argn);
@@ -17,7 +33,9 @@ class SchedFixed : public SchedBase {
 		virtual int tick(int cpu, const enum Motivo m);
 
 	private:
-		std::queue<int> q;
+		std::priority_queue<TaskComparable> q;
+		
 };
+
 
 #endif
