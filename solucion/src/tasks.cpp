@@ -6,10 +6,15 @@
 
 using namespace std;
 
+// esta funcion simula una tarea interactiva
+// se pide en el ejercicio 1
 void TaskConsola(int pid, vector<int> params) {
-	for (int i = 0; i < params[0]; i++) {
-		int duracion = rand()%(params[2]-params[1]) +params[1];	// número aleatorio entre dos números
-		uso_IO(pid, duracion);
+	unsigned int bmax = params[2];	// la duracion maxima de la llamada bloqueante
+	unsigned int bmin = params[1];  // la duracion minima de la llamada bloqueante
+	unsigned int n = params[0];	// la cnatidad de llamadas bloqueantes
+	for (unsigned int i = 0; i < n; i++) { // realizo n llamadas bloqueantes
+		int duracion = rand()%(bmax - bmin) + bmin;	// número aleatorio entre dos números
+		uso_IO(pid, duracion); // realizo las llamadas bloqueantes
 	}
 	
 }
