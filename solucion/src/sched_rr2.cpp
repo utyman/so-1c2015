@@ -44,15 +44,16 @@ bool contiene(vector<int> nucleo, int pid) {
 void SchedRR2::load(int pid) {
 	unsigned int nucleoMenosCongestionado = 0;
 	unsigned int cantidadEnNucleoMenosCongestionado = qs[0].size();
-	for (unsigned int i = 0; i < qs.size(); i++) {
+	for (unsigned int i = 0; i < qs.size(); i++) { // se iteran todos los nucleos para ver
+							// cual es el menos congestionado
 		if (qs[i].size() < cantidadEnNucleoMenosCongestionado) {
 			nucleoMenosCongestionado = i;
 			cantidadEnNucleoMenosCongestionado = qs[i].size();
 		}
 	}
 
-	qs[nucleoMenosCongestionado].push(pid);
-
+	qs[nucleoMenosCongestionado].push(pid); // se pushea a este nucleo
+	nucleos[nucleoMenosCongestionado].push_back(pid); // se lo asocia al nucleo menos congestionado
 }
 
 void SchedRR2::unblock(int pid) {
