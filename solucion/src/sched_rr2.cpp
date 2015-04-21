@@ -10,6 +10,8 @@ SchedRR2::SchedRR2(vector<int> argn) {
 	// Round robin recibe la cantidad de cores y sus cpu_quantum por parámetro
 	unsigned int cantidadCores = argn[0];
 	for (unsigned int i = 0; i < cantidadCores; i++) {
+		// inicializacion de las colas por core y de los vectores
+		// que indican que procesos estan asociados a cada core
 		queue<int> pids;
 		vector<int> procesos;
 		qs.push_back(pids);
