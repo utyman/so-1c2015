@@ -1,0 +1,86 @@
+\documentclass[a4paper,spanish]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[width=15.5cm, left=3cm, top=2.5cm, height= 24.5cm]{geometry}
+\parindent = 0 pt
+\parskip = 11 pt
+\usepackage{ulem}
+\usepackage{fancyhdr}
+\usepackage{caratula}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{listings}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\graphicspath{ {imgs/} }
+\oddsidemargin 0in
+\textwidth 6.2in
+\topmargin 0in
+\addtolength{\topmargin}{-.5in}
+\textheight 10in
+\parskip=1ex
+\pagestyle{fancy}
+\renewcommand{\figurename}{Figura}
+
+\lhead{Sistemas Operativos - TP Scheduling}
+
+
+\materia{Ciencias de la Computaci\'on}
+\submateria{Sistemas Operativos}
+\titulo{TP Scheduling}
+\integrante{Fabian Gonz\'alez}{076/01}{utyman@gmail.com}
+\integrante{Maximiliano Rey}{037/13}{rey.maximiliano@gmail.com}
+\integrante{Diego Sueiro}{075/90}{dsueiro@gmail.com}
+
+\begin{document}
+ 
+\thispagestyle{empty}
+
+
++\maketitle
+
+\newpage
+\input{introduccion}
+
+\newpage
+\input{fcfs}
+
+\newpage
+\input{rr1}
+
+\newpage
+\input{realtime}
+
+\newpage
+\input{rr2} 
+
+\newpage
+
+\begin{thebibliography}{9}
+
+\bibitem{stallings2008}
+  William Stallings,
+  \emph{Operating Systems},
+  Prentice Hall, Upper Saddle River
+  2008.
+
+\bibitem{tanenbaum2001}
+  Andrew S. Tanenbaum,
+  \emph{Modern operating systems},
+  Prentice Hall, Upper Saddle River
+  2001.
+
+\bibitem{liuleiland1973}
+  C. L. Liu y James W. Layland,
+  \emph{Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment},  Journal of the ACM  (JACM), 1973.
+
+\end{thebibliography}
+
+\end{document}
