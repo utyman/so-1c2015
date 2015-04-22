@@ -28,7 +28,7 @@ void SchedDynamic::load(int pid) {
 void SchedDynamic::unblock(int pid) {
 	for (unsigned int i = 0; i < habilitadas.size(); i++) { // habilito a la tarea desbloqueada
 		if (tareas[i] == pid) {
-			habilitadas[i] = 0;
+			habilitadas[i] = 1;
 		}
 	}
 }
