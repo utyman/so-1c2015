@@ -13,7 +13,7 @@ class TaskComparable
     TaskComparable() {};                                      //constructor default
     TaskComparable(int pid, int priority) { this->pid = pid; this->period = period; }    //constructor
     bool operator<(const TaskComparable& right) const{
-    	return (this->period)  < (right.period);
+    	return (right.period)  < (this->period);
     }
 
     int get_pid() const { return pid; }             //accessor methods

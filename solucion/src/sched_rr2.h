@@ -15,8 +15,8 @@ class SchedRR2 : public SchedBase {
 		virtual int tick(int cpu, const enum Motivo m);
 
 	private:
-		std::vector< std::queue<int> > qs;
-		std::vector< std::vector<int> > nucleos;
+		std::vector< std::queue<int> > qs; // guarda las colas de prioridades asignadas a cada nuclo
+		std::vector< std::vector<int> > nucleos; // guarda las tareas asignadas a cada nucleo
 		int next(int cpu);
 };
 
