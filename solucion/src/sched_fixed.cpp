@@ -40,19 +40,19 @@ int SchedFixed::tick(int cpu, const enum Motivo m) {
 			int sig = q.top().get_pid(); q.pop();
 			return sig;
 		} else {
-			return IDLE_TASK; // si el único proceso está bloquedo
+			return IDLE_TASK; // si no hay tareas encoladas
 					  // ejecuta IDLE_TASK
 		}
 	}
 	if (m == TICK) {
 		if (!q.empty()) {
-			int sig = q.top().get_pid(); q.pop();
 			int des = current_pid(cpu);
 			if (des != IDLE_TASK) {
 				TaskComparable tsk;
 				tsk = TaskComparable(des, period(des));
-				q.push(tsk); // llegó una tarea nueva
+				q.push(tsk); // vuelvo a encolar la tarea que esta ejecutando
 			}
+			int sig = q.top().get_pid(); q.pop();
 			return sig;
 		} else {
 			return current_pid(cpu);
