@@ -16,6 +16,8 @@ class SchedRR : public SchedBase {
 
 	private:
 		std::queue<int> q;
+		std::vector<int> contadorQuantums; // se usa para controlar los quantums
+		std::vector<int> contadorQuantumsOriginal; // guardo la cantidad de quantums de cada nucleo
 		int next(int cpu);
 };
 

@@ -9,6 +9,11 @@ using namespace std;
 SchedRR2::SchedRR2(vector<int> argn) {
 	// Round robin recibe la cantidad de cores y sus cpu_quantum por parámetro
 	unsigned int cantidadCores = argn[0];
+
+	for (unsigned int i = 0; i < cantidadCores; i++) { // guardo la información de quantums
+		contadorQuantums.push_back(argn[1+i]);
+		contadorQuantumsOriginal.push_back(argn[1+i]);
+	}
 	for (unsigned int i = 0; i < cantidadCores; i++) {
 		// inicializacion de las colas por core y de los vectores
 		// que indican que procesos estan asociados a cada core
@@ -71,6 +76,7 @@ void SchedRR2::unblock(int pid) {
 
 int SchedRR2::tick(int cpu, const enum Motivo m) {
 	if (m == EXIT) {
+		contadorQuantums[cpu] = contadorQuantumsOriginal[cpu]; // actualizo el contador de quantums
 		// saco al proceso de los procesos activos del núcleo
 		borrar(nucleos[cpu], current_pid(cpu));
 		// Si el pid actual terminó, sigue el próximo.
@@ -81,6 +87,7 @@ int SchedRR2::tick(int cpu, const enum Motivo m) {
 		}
 	} 
 	if (m == BLOCK) {
+		contadorQuantums[cpu] = contadorQuantumsOriginal[cpu]; // actualizo el contador de quantums
 		if (!qs[cpu].empty()) {
 			int sig = qs[cpu].front(); qs[cpu].pop();
 			return sig;
@@ -90,6 +97,13 @@ int SchedRR2::tick(int cpu, const enum Motivo m) {
 		}
 	}
 	if (m == TICK) {
+		contadorQuantums[cpu] = contadorQuantums[cpu]-1;
+		if (contadorQuantums[cpu] != 0 && current_pid(cpu) != IDLE_TASK) { // si no se acabo el quantum lo bajo y no cambio el proceso
+			return current_pid(cpu);
+		} else {
+			contadorQuantums[cpu] = contadorQuantumsOriginal[cpu]; // reseto el quantu original
+		}
+
 		if (!qs[cpu].empty()) {
 			int sig = qs[cpu].front(); qs[cpu].pop();
 			int des = current_pid(cpu);

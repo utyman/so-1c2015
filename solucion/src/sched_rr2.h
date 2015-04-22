@@ -17,6 +17,8 @@ class SchedRR2 : public SchedBase {
 	private:
 		std::vector< std::queue<int> > qs; // guarda las colas de prioridades asignadas a cada nuclo
 		std::vector< std::vector<int> > nucleos; // guarda las tareas asignadas a cada nucleo
+		std::vector<int> contadorQuantums; // se usa para controlar los quantums
+		std::vector<int> contadorQuantumsOriginal; // guardo la cantidad de quantums de cada nucleo
 		int next(int cpu);
 };
 
