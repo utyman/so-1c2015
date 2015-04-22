@@ -17,8 +17,6 @@ class SchedDynamic : public SchedBase {
 		virtual int tick(int cpu, const enum Motivo m);
 
 	private:
-		std::queue<int> q;
-		virtual int obtenerTareaPrioritaria();
 		std::vector<int> contadorQuantums; // se usa para controlar los quantums
 		std::vector<int> contadorQuantumsOriginal; // guardo la cantidad de quantums de cada nucleo
 		std::vector<int> tareas; // guarda las ids de las tareas que se estan ejecutando

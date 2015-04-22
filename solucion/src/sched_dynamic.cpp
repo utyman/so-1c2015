@@ -33,12 +33,25 @@ void SchedDynamic::unblock(int pid) {
 	}
 }
 
+int obtenerPrimeraHabilitada(vector<int> habilitadas) {
+	for (unsigned int i = 0; i < habilitadas.size(); i++) {
+		if (habilitadas[i] == 1)
+			return i;
+	}
+
+	return -1;
+}
 // devuelve la tarea prioritaria
-int SchedDynamic::obtenerTareaPrioritaria() {
+int obtenerTareaPrioritaria(vector<int> tareas, vector<int> tiempoFaltante, vector<int> habilitadas) {
 	int tareaPrioritaria = IDLE_TASK;
-	int minimoFaltanteOverflow = -9999;
+	int primeraHabilitada = obtenerPrimeraHabilitada(habilitadas);
+	if (primeraHabilitada == -1) {
+		return IDLE_TASK;
+	}
+	int minimoFaltanteOverflow = tiempoFaltante[primeraHabilitada];
+	tareaPrioritaria = tareas[primeraHabilitada];
 	for (unsigned int i = 0; i < tareas.size(); i++) { // itero por todas las tareas habilitadas
-		if ((habilitadas[i] == 1 && tiempoFaltante[i] < minimoFaltanteOverflow) || minimoFaltanteOverflow == -9999) {
+		if ((habilitadas[i] == 1 && tiempoFaltante[i] < minimoFaltanteOverflow) ) {
 			tareaPrioritaria = tareas[i];
 			minimoFaltanteOverflow = tiempoFaltante[i];
 		}
@@ -62,7 +75,7 @@ int SchedDynamic::tick(int cpu, const enum Motivo m) {
 			}
 		}
 
-		return obtenerTareaPrioritaria();
+		return obtenerTareaPrioritaria(tareas, tiempoFaltante, habilitadas);
 	} 
 	if (m == BLOCK) {
 		contadorQuantums[cpu] = contadorQuantumsOriginal[cpu]; // actualizo el contador de quantums
@@ -72,7 +85,7 @@ int SchedDynamic::tick(int cpu, const enum Motivo m) {
 			}
 		}
 
-		return obtenerTareaPrioritaria();
+		return obtenerTareaPrioritaria(tareas, tiempoFaltante, habilitadas);
 	}
 	if (m == TICK) {
 		contadorQuantums[cpu] = contadorQuantums[cpu]-1;
@@ -81,8 +94,7 @@ int SchedDynamic::tick(int cpu, const enum Motivo m) {
 		} else {
 			contadorQuantums[cpu] = contadorQuantumsOriginal[cpu]; // reseto el quantu original
 		}
-		return obtenerTareaPrioritaria();
-
+		return obtenerTareaPrioritaria(tareas, tiempoFaltante, habilitadas);
 	}
 	return IDLE_TASK;
 }
